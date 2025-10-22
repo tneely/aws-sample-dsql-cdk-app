@@ -3,6 +3,7 @@ import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
+import { IpRanges } from './ip-ranges';
 
 export class AwsSampleDsqlCdkAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -15,5 +16,8 @@ export class AwsSampleDsqlCdkAppStack extends Stack {
     const topic = new sns.Topic(this, 'AwsSampleDsqlCdkAppTopic');
 
     topic.addSubscription(new subs.SqsSubscription(queue));
+    
+    let ipRanges = new IpRanges(this, "AURORA_DSQL", "us-east-1");
+    console.log(ipRanges.ipv4Ranges);
   }
 }
